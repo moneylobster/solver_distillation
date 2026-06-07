@@ -43,6 +43,9 @@ Mine:
 #### Figure 3 (a-c)
 Paper:
 
+<img width="1508" height="484" alt="image" src="https://github.com/user-attachments/assets/a05275f7-4bfa-4407-88c5-3ff4c1746bef" />
+
+
 Mine:
 
 #### Table 3
