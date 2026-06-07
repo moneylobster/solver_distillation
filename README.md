@@ -115,18 +115,10 @@ Table 3 ablations (CIFAR-10, NFE 4/6/8/10): train with one switch off, then eval
 
 ```bash
 uv run python scripts/train_dlms.py --dataset cifar10 --nfe 4 --no-afs --tag wo_afs
-uv run python scripts/eval_dlms.py --dataset cifar10 --nfes 4 \
-    --run-pattern "{dataset}-nfe{nfe}-wo_afs" --solver-label dlms_wo_afs
+uv run python scripts/eval_dlms.py --dataset cifar10 --nfes 4 --run-pattern "{dataset}-nfe{nfe}-wo_afs" --solver-label dlms_wo_afs
 ```
 
 Switches: `--no-afs`, `--no-bottleneck`, `--no-high-order-init`, `--no-inception-loss`, `--no-time-scaling`, `--no-adaptive-schedule` (labels `dlms_wo_afs`, `dlms_wo_bottleneck`, `dlms_wo_high_order`, `dlms_wo_inception`, `dlms_wo_time_scaling`, `dlms_wo_adaptive_schedule`).
-
-A sanity check that validates the whole eval pipeline against published
-numbers (diff-solvers README: iPNDM-4 on CIFAR-10 at NFE 6 → FID 7.05):
-
-```bash
-uv run python scripts/run_baselines.py --dataset cifar10 --solvers ipndm --nfes 6
-```
 
 ## Attribution
 
