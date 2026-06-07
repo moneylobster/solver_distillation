@@ -68,6 +68,7 @@ apptainer build --fakeroot dlms.sif apptainer/dlms.def
 
 # Download checkpoints/FID assets, create work schedule (job manifest)
 apptainer exec dlms.sif bash -c 'export PYTHONPATH=$PWD; python scripts/prefetch.py'
+# the output of this step already in the repo, so you can skip it
 apptainer exec dlms.sif bash -c 'export PYTHONPATH=$PWD; python scripts/make_manifest.py'
 
 # Edit slurm file and fill in queue and username, then run. (Takes up multiple GPUs)
