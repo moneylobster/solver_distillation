@@ -1,4 +1,4 @@
-# DLMS: Linear Multistep Solver Distillation — Reimplementation
+# DLMS: Linear Multistep Solver Distillation - Reimplementation
 
 Reimplementation of: Yuchen Liang, Xiangzhong Fang, Hanting Chen, Yunhe Wang. "Linear Multistep Solver Distillation for Fast Sampling of Diffusion Models." ICLR 2025. [OpenReview](https://openreview.net/forum?id=vkOFOUDLTn)
 
@@ -31,6 +31,7 @@ Paper targets for reference (Table 5, DLMS FID at NFE 4–10):
 ## Code structure
 
 `dlms` contains the multi-step solver implementation.
+
 - `bootstrap.py`: Path utils
 - `config.py`: Training configurations
 - `ema.py`: EMA implementation (training process optimizes over EMA half-life as a hyperparameter)
@@ -42,11 +43,17 @@ Paper targets for reference (Table 5, DLMS FID at NFE 4–10):
 - `solver.py`: DLMS solver implementation
 - `teacher.py`: DPM-Solver++ used as teacher
 - `train.py`: Distillation/training process
+
 `scripts` contains scripts to generate/test/train various parts of the codebase.
+
 `slurm` contains slurm batch scripts.
+
 `apptainer` has a file to generate an apptainer container for the dependencies.
-`tests` contains generated tests to verify code works as expected
-`external/diff-sampler` is the git submodule containing implementations of the other multistep methods
+
+`tests` contains generated tests to verify code works as expected.
+
+`external/diff-sampler` is the git submodule containing implementations of the other multistep methods.
+
 `results` contains the outputs once they have been generated.
 
 ## Installation
