@@ -1,0 +1,11 @@
+{
+  "snapshot": "results/runs/cifar10-nfe8-wo_time_scaling/snapshot-020032.pt",
+  "fid_num": 5000,
+  "fids": {
+    "raw": 7.7676851167600764,
+    "ema_1": 7.857183885329278,
+    "ema_2": 7.8878601007579805,
+    "ema_3": 7.855896878351585
+  },
+  "best": "raw"
+}

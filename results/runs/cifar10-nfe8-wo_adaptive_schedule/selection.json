@@ -1,0 +1,11 @@
+{
+  "snapshot": "results/runs/cifar10-nfe8-wo_adaptive_schedule/snapshot-020032.pt",
+  "fid_num": 5000,
+  "fids": {
+    "raw": 9.007775129958953,
+    "ema_1": 9.15424394487604,
+    "ema_2": 9.267103853102928,
+    "ema_3": 9.290298289146477
+  },
+  "best": "raw"
+}

@@ -1,0 +1,28 @@
+{
+  "dataset_name": "cifar10",
+  "nfe": 8,
+  "max_order": 4,
+  "M": 4,
+  "teacher_max_order": 3,
+  "total_traj": 20000,
+  "batch": 64,
+  "batch_gpu": 0,
+  "lr": 0.005,
+  "seed": 0,
+  "sigma_min": 0.002,
+  "sigma_max": 80.0,
+  "scale_range": 0.2,
+  "ema_halflives_kimg": [
+    1.0,
+    2.0,
+    3.0
+  ],
+  "tick_traj": 500,
+  "snapshot_traj": 2500,
+  "afs": true,
+  "use_bottleneck": true,
+  "high_order_init": true,
+  "inception_loss": true,
+  "learn_scale": true,
+  "learn_schedule": false
+}

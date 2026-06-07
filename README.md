@@ -18,12 +18,12 @@ Baseline curves (DEIS, DPM-Solver++, UniPC) are re-run with the [diff-sampler](h
 
 ### Results
 
-**NOTE: The evaluation/FID calculations are still underway at time of upload, with less than an hour left until completion. I will update the README with the results once it has finished.**
+Overall the results I obtained are close to those given in the paper. At higher NFEs my implementation's performance diverges from the paper. It seems this is due to a training instability (loss curves show some convergence failures for these cases, learned time schedule ends up uneven). It's likely that there may be a minor implementation error in my code.
 
 #### Table 5
 Paper (FID at 4-10 NFEs):
 
-| Dataset     | Solver       | 4         | 5        | 6        | 7        | 8        | 9        | 10       |
+| Dataset     | Solver       | NFE 4     | NFE 5    | NFE 6    | NFE 7    | NFE 8    | NFE 9    | NFE 10   |
 |-------------|--------------|-----------|----------|----------|----------|----------|----------|----------|
 | CIFAR-10    | DEIS         | 25.66     | 14.39    | 9.40     | 6.94     | 5.55     | 4.68     | 4.09     |
 | CIFAR-10    | DPM-Solver++ | 46.52     | 24.97    | 11.99    | 6.74     | 4.54     | 3.42     | 3.00     |
@@ -40,15 +40,32 @@ Paper (FID at 4-10 NFEs):
 
 Mine:
 
+| Dataset     | Solver       | NFE 4 | NFE 5 | NFE 6 | NFE 7 | NFE 8 | NFE 9 | NFE 10 |
+|-------------|--------------|-------|-------|-------|-------|-------|-------|--------|
+| CIFAR-10    | DEIS         | 26.25 | 15.18 | 10.13 | 7.57  | 6.08  | 5.14  | 4.48   |
+| CIFAR-10    | DPM-Solver++ | 46.53 | 24.98 | 11.98 | 6.74  | 4.54  | 3.42  | 3.00   |
+| CIFAR-10    | UniPC        | 45.21 | 23.97 | 11.13 | 5.83  | 3.98  | 3.20  | 2.89   |
+| CIFAR-10    | DLMS         | 4.78  | 4.32  | 5.49  | 4.39  | 4.42  | 3.88  | 5.22   |
+| FFHQ-64     | DEIS         | 28.68 | 17.99 | 12.89 | 9.97  | 8.12  | 6.87  | 5.99   |
+| FFHQ-64     | DPM-Solver++ | 45.95 | 22.51 | 13.74 | 8.45  | 6.05  | 4.77  | 4.12   |
+| FFHQ-64     | UniPC        | 44.80 | 21.40 | 12.85 | 7.44  | 5.51  | 4.48  | 3.85   |
+| FFHQ-64     | DLMS         | 8.39  | 7.05  | 6.71  | 5.44  | 5.60  | 5.43  | 5.22   |
+| ImageNet-64 | DEIS         | 21.83 | 13.49 | 9.51  | 7.26  | 5.98  | 5.14  | 4.57   |
+| ImageNet-64 | DPM-Solver++ | 53.63 | 23.46 | 13.25 | 8.65  | 6.65  | 5.53  | 4.87   |
+| ImageNet-64 | UniPC        | 52.93 | 22.33 | 12.48 | 8.13  | 6.45  | 5.56  | 4.88   |
+| ImageNet-64 | DLMS         | 7.85  | 5.78  | 5.00  | 4.48  | 4.97  | 4.50  | 4.14   |
+
 #### Figure 3 (a-c)
 Paper:
 
 Mine:
 
+![Figure 3 reproduction](results/figures/fig3.png)
+
 #### Table 3
 Paper:
 
-| NFE                           | 4        | 6        | 8        | 10       |
+| Variant                       | NFE 4    | NFE 6    | NFE 8    | NFE 10   |
 |-------------------------------|----------|----------|----------|----------|
 | DLMS                          | **4.52** | **2.81** | 2.43     | **2.24** |
 | w/o AFS                       | 6.48     | 3.30     | **2.42** | 2.30     |
@@ -60,6 +77,16 @@ Paper:
 | Handcrafted (best)            | 25.66    | 9.40     | 3.99     | 2.89     |
 
 Mine:
+
+| Variant                       | NFE 4 | NFE 6 | NFE 8 | NFE 10 |
+|-------------------------------|-------|-------|-------|--------|
+| DLMS                          | 4.78  | 5.49  | 4.42  | 5.22   |
+| w/o AFS                       | 5.89  | 3.97  | 3.47  | 4.05   |
+| w/o bottleneck feature        | 5.19  | 5.36  | 5.29  | 5.39   |
+| w/o high-order initialization | 4.88  | 3.75  | 3.20  | 2.80   |
+| w/o Inception distance        | 10.08 | 6.80  | 4.73  | 4.38   |
+| w/o time scaling              | 7.93  | 3.90  | 3.18  | 3.29   |
+| w/o adaptive time schedule    | 5.48  | 4.71  | 4.31  | 4.10   |
 
 ## Code structure
 

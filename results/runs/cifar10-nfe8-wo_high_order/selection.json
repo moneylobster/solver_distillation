@@ -1,0 +1,11 @@
+{
+  "snapshot": "results/runs/cifar10-nfe8-wo_high_order/snapshot-020032.pt",
+  "fid_num": 5000,
+  "fids": {
+    "raw": 7.9327174735347485,
+    "ema_1": 8.198151750208527,
+    "ema_2": 7.844805372314993,
+    "ema_3": 7.961703082217197
+  },
+  "best": "ema_2"
+}

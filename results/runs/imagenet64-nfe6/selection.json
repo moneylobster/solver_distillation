@@ -1,0 +1,11 @@
+{
+  "snapshot": "results/runs/imagenet64-nfe6/snapshot-020000.pt",
+  "fid_num": 5000,
+  "fids": {
+    "raw": 11.246218371612448,
+    "ema_1": 11.33461937881691,
+    "ema_2": 11.444549897100844,
+    "ema_3": 11.547250956923929
+  },
+  "best": "raw"
+}

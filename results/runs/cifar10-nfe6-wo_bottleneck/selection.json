@@ -1,0 +1,11 @@
+{
+  "snapshot": "results/runs/cifar10-nfe6-wo_bottleneck/snapshot-020032.pt",
+  "fid_num": 5000,
+  "fids": {
+    "raw": 11.252208339882786,
+    "ema_1": 10.875328109639005,
+    "ema_2": 10.518999332231973,
+    "ema_3": 9.95002441317884
+  },
+  "best": "ema_3"
+}

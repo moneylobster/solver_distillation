@@ -1,0 +1,11 @@
+{
+  "snapshot": "results/runs/cifar10-nfe10-wo_inception/snapshot-020032.pt",
+  "fid_num": 5000,
+  "fids": {
+    "raw": 9.253477184479856,
+    "ema_1": 9.031033561104769,
+    "ema_2": 9.089609488682788,
+    "ema_3": 9.047753331659226
+  },
+  "best": "ema_1"
+}
