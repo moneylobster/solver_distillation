@@ -11,7 +11,7 @@ This paper introduces an improvement on the multistep solvers used to speed up s
 ## Reproduced results (scope)
 
 - Table 5 rows for CIFAR-10, FFHQ-64 and ImageNet-64
-- Figure 3 (a–c)
+- Figure 3 (a-c)
 - Table 3
 
 Baseline curves (DEIS, DPM-Solver++, UniPC) are re-run with the [diff-sampler](https://github.com/zju-pi/diff-sampler) toolbox at its recommended settings (which match the paper's baseline numbers).
@@ -20,13 +20,46 @@ Baseline curves (DEIS, DPM-Solver++, UniPC) are re-run with the [diff-sampler](h
 
 **NOTE: The evaluation/FID calculations are still underway at time of upload, with less than an hour left until completion. I will update the README with the results once it has finished.**
 
-Paper targets for reference (Table 5, DLMS FID at NFE 4–10):
+#### Table 5
+Paper (FID at 4-10 NFEs):
 
-| Dataset     | 4     | 5    | 6    | 7    | 8    | 9    | 10   |
-|-------------|-------|------|------|------|------|------|------|
-| CIFAR-10    | 4.52  | 3.23 | 2.81 | 2.53 | 2.43 | 2.37 | 2.24 |
-| FFHQ-64     | 9.63  | 6.85 | 5.82 | 5.16 | 4.81 | 4.23 | 4.12 |
-| ImageNet-64 | 10.07 | 7.16 | 7.08 | 6.31 | 5.93 | 4.57 | 4.30 |
+| Dataset     | Solver       | 4         | 5        | 6        | 7        | 8        | 9        | 10       |
+|-------------|--------------|-----------|----------|----------|----------|----------|----------|----------|
+| CIFAR-10    | DEIS         | 25.66     | 14.39    | 9.40     | 6.94     | 5.55     | 4.68     | 4.09     |
+| CIFAR-10    | DPM-Solver++ | 46.52     | 24.97    | 11.99    | 6.74     | 4.54     | 3.42     | 3.00     |
+| CIFAR-10    | UniPC        | 45.20     | 23.98    | 11.14    | 5.83     | 3.99     | 3.21     | 2.89     |
+| CIFAR-10    | DLMS         | **4.52**  | **3.23** | **2.81** | **2.53** | **2.43** | **2.37** | **2.24** |
+| FFHQ-64     | DEIS         | 28.31     | 17.36    | 12.25    | 9.37     | 7.59     | 6.39     | 5.56     |
+| FFHQ-64     | DPM-Solver++ | 45.95     | 22.51    | 13.74    | 8.44     | 6.04     | 4.77     | 4.12     |
+| FFHQ-64     | UniPC        | 44.78     | 21.40    | 12.85    | 7.44     | 5.50     | 4.47     | **3.84** |
+| FFHQ-64     | DLMS         | **9.63**  | **6.85** | **5.82** | **5.16** | **4.81** | **4.23** | 4.12     |
+| ImageNet-64 | DEIS         | 23.53     | 14.75    | 12.57    | 8.20     | 6.84     | 5.97     | 5.34     |
+| ImageNet-64 | DPM-Solver++ | 56.63     | 25.49    | 15.06    | 10.14    | 7.84     | 6.48     | 5.67     |
+| ImageNet-64 | UniPC        | 55.63     | 24.36    | 14.30    | 9.57     | 7.52     | 6.34     | 5.53     |
+| ImageNet-64 | DLMS         | **10.07** | **7.16** | **7.08** | **6.31** | **5.93** | **4.57** | **4.30** |
+
+Mine:
+
+#### Figure 3 (a-c)
+Paper:
+
+Mine:
+
+#### Table 3
+Paper:
+
+| NFE                           | 4        | 6        | 8        | 10       |
+|-------------------------------|----------|----------|----------|----------|
+| DLMS                          | **4.52** | **2.81** | 2.43     | **2.24** |
+| w/o AFS                       | 6.48     | 3.30     | **2.42** | 2.30     |
+| w/o bottleneck feature        | 4.71     | 3.40     | 2.46     | 2.25     |
+| w/o high-order initialization | 4.92     | 3.25     | 2.94     | 2.44     |
+| w/o Inception distance        | 6.67     | 3.77     | 3.10     | 2.80     |
+| w/o time scaling              | 7.75     | 3.86     | 3.07     | 2.41     |
+| w/o adaptive time schedule    | 10.41    | 6.18     | 3.17     | 3.03     |
+| Handcrafted (best)            | 25.66    | 9.40     | 3.99     | 2.89     |
+
+Mine:
 
 ## Code structure
 
@@ -71,14 +104,12 @@ I used the TRUBA HPC cluster to generate my results.
 # Build the container
 apptainer build --fakeroot dlms.sif apptainer/dlms.def
 
-# Copy to cluster
-
-# Download checkpoints/FID assets, create work schedule (job manifest)
-apptainer exec dlms.sif bash -c 'export PYTHONPATH=$PWD; python scripts/prefetch.py'
+# generate job manifest
 # the output of this step already in the repo, so you can skip it
 apptainer exec dlms.sif bash -c 'export PYTHONPATH=$PWD; python scripts/make_manifest.py'
 
 # Edit slurm file and fill in queue and username, then run. (Takes up multiple GPUs)
+sbatch slurm/prefetch_debug.sbatch # Download checkpoints/FID assets
 sbatch slurm/dlms_array.sbatch
 
 # Copy outputs back
@@ -103,10 +134,8 @@ uv run python scripts/eval_dlms.py --dataset cifar10 --nfes 5
 Sweeps (Table 5 / Fig 3a–c):
 
 ```bash
-for n in 4 5 6 7 8 9 10:  train_dlms --dataset cifar10 --nfe $n ; select_ema ; done
-uv run python scripts/eval_dlms.py --dataset cifar10 --nfes 4-10
-uv run python scripts/run_baselines.py --dataset cifar10 --solvers deis,dpmpp,unipc --nfes 4-10
-# same with --dataset ffhq / imagenet64 (lower --batch-gpu on small GPUs)
+uv run python scripts/make_manifest.py     # writes scripts/manifest.txt (55 jobs)
+bash scripts/runner.sh                     # runs them one by one, can invoke parallel invocations to work-steal
 uv run python scripts/make_figures.py            # results/figures/fig3.png
 uv run python scripts/make_tables.py             # results/tables/table5.md, table3.md
 ```
