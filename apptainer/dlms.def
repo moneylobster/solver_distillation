@@ -1,0 +1,33 @@
+Bootstrap: docker
+From: ubuntu:24.04
+
+%files
+    pyproject.toml /opt/project/pyproject.toml
+    uv.lock /opt/project/uv.lock
+
+%post
+    set -e
+    apt-get update
+    apt-get install -y --no-install-recommends curl ca-certificates git
+    rm -rf /var/lib/apt/lists/*
+
+    export UV_INSTALL_DIR=/usr/local/bin
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+
+    # Keep interpreter and packages in world-readable locations (not /root).
+    export UV_PYTHON_INSTALL_DIR=/opt/python
+    export UV_CACHE_DIR=/opt/uv-cache
+    export UV_LINK_MODE=copy
+
+    cd /opt/project
+    uv python install 3.13
+    uv venv /opt/venv --python 3.13
+    UV_PROJECT_ENVIRONMENT=/opt/venv uv sync --frozen --no-install-project
+
+    rm -rf /opt/uv-cache
+
+%environment
+    export PATH=/opt/venv/bin:$PATH
+
+%runscript
+    exec "$@"

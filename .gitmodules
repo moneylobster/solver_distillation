@@ -1,0 +1,3 @@
+[submodule "external/diff-sampler"]
+	path = external/diff-sampler
+	url = https://github.com/moneylobster/diff-sampler
